@@ -38,14 +38,14 @@ class GNSSGraphDataset(InMemoryDataset):
         # 定义训练集包含的文件 (根据你的策略)
         # 这里的名字必须和 config.DATA_FILES 里的键(Key)一致
         # ds0/cleanStatic80 用于学习正常，ds4 用于学习隐蔽欺骗
-        TRAIN_FILES = ['cleanStatic80.bin', 'ds0.bin', 'ds4.bin'] 
+        TRAIN_FILES = ['cleanStatic.bin', 'cleanDynamic.bin', 'ds4.bin'] 
 
         print(f"🏗️ 开始构建图数据集...")
         print(f"🎯 训练集文件定义: {TRAIN_FILES}")
 
         # 遍历 config 中定义的所有文件
         for filename, label in config.DATA_FILES.items():
-            # 找到对应的 CSV 路径
+            # ... (这部分寻找CSV路径的代码保持不变) ...
             csv_name = filename.replace('.bin', '_features.csv')
             csv_path = os.path.join(config.DATA_PROC_DIR, csv_name)
             
@@ -55,14 +55,12 @@ class GNSSGraphDataset(InMemoryDataset):
             
             # 判断该文件属于训练集还是测试集
             is_train = (filename in TRAIN_FILES)
-            dataset_type = "TRAIN" if is_train else "TEST"
-            print(f"📦 处理 {filename} -> Label: {label} [{dataset_type}]")
 
             # 读取 CSV
             df = pd.read_csv(csv_path)
-            
             # 按时间戳分组构建图
             grouped = df.groupby('Time')
+
             for time, group in tqdm(grouped, desc=f"  Parsing {filename}", leave=False):
                 # 1. 节点特征 (Node Features)
                 # 归一化: CN0/50, Doppler/5000
@@ -116,12 +114,17 @@ class GNSSGraphDataset(InMemoryDataset):
                 # 4. 标签与掩码
                 y = torch.tensor([label], dtype=torch.long)
                 
-                # 创建图对象 (注意这里要把 edge_attr 传进去)
+                # 创建图对象
                 data = Data(x=x, edge_index=edge_index_tensor, edge_attr=edge_attr_tensor, y=y)
 
                 # 附加元数据 (Metadata)
                 data.timestamp = float(time)
-                data.train_mask = is_train # 关键：标记这条数据属于训练集还是测试集
+                data.train_mask = is_train 
+                
+                # === 修改 2: 注入场景标签 (Scenario Label) ===
+                # 这行代码是你当前缺少的！没有它，我们就没法画出“DS1 vs DS7”的对比图。
+                # 我们直接把文件名（去掉后缀）作为场景名存进去
+                data.scenario = filename.split('.')[0] 
                 
                 data_list.append(data)
 

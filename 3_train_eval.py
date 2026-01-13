@@ -145,5 +145,68 @@ def main():
     # 打印详细报告
     print("\n" + classification_report(y_true, y_pred, target_names=target_names, digits=4))
 
+    # ===  7. 分场景详细性能评估 (Scenario-wise Evaluation) ===
+    # 这是论文 "Experimental Results" 章节的核心数据来源
+    print("\n" + "="*50)
+    print("📊 分场景详细性能评估 (Scenario-wise Evaluation)")
+    print("="*50)
+    print(f"{'Scenario':<15} | {'Samples':<8} | {'Acc (%)':<10} | {'Status'}")
+    print("-" * 50)
+
+    # 提取所有唯一的场景名
+    # 注意: 需要先重新加载 dataset 或者确保 test_data 里的对象有 scenario 属性
+    # 如果报错 AttributeError，说明你还没运行上面的 graph_builder 修改并删除旧 .pt 文件
+    test_scenarios = sorted(list(set([d.scenario for d in test_data])))
+    
+    performance_dict = {}
+
+    for scenario in test_scenarios:
+        # 筛选出属于该场景的数据
+        scenario_data = [d for d in test_data if d.scenario == scenario]
+        if len(scenario_data) == 0: continue
+
+        loader = DataLoader(scenario_data, batch_size=config.BATCH_SIZE, shuffle=False)
+        
+        correct = 0
+        total = 0
+        with torch.no_grad():
+            for data in loader:
+                data = data.to(device)
+                out = model(data.x, data.edge_index, data.edge_attr, data.batch)
+                pred = out.argmax(dim=1)
+                correct += int((pred == data.y).sum())
+                total += data.y.size(0)
+        
+        acc = correct / total * 100
+        performance_dict[scenario] = acc
+        
+        # 状态判定
+        status = "✅ PASS" if acc > 90 else "⚠️ WEAK"
+        print(f"{scenario:<15} | {total:<8} | {acc:.2f}%     | {status}")
+    
+    print("-" * 50)
+    
+    # 画个柱状图保存下来 (论文 Fig. X)
+    scenarios = list(performance_dict.keys())
+    accs = list(performance_dict.values())
+    
+    plt.figure(figsize=(12, 6))
+    bars = plt.bar(scenarios, accs, color=['#4CAF50' if a > 90 else '#F44336' for a in accs])
+    plt.axhline(y=90, color='r', linestyle='--', label='Target (90%)')
+    plt.title('Detection Accuracy per Attack Scenario')
+    plt.ylabel('Accuracy (%)')
+    plt.ylim(0, 105)
+    plt.xticks(rotation=45)
+    
+    # 在柱子上标数值
+    for bar in bars:
+        height = bar.get_height()
+        plt.text(bar.get_x() + bar.get_width()/2., height,
+                f'{height:.1f}%', ha='center', va='bottom')
+                
+    plt.tight_layout()
+    plt.savefig(os.path.join(config.LOG_DIR, 'scenario_accuracy.png'))
+    print("📈 分场景精度对比图已保存: logs/scenario_accuracy.png")
+
 if __name__ == "__main__":
     main()
