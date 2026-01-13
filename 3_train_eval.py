@@ -39,7 +39,8 @@ def main():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(f"⚙️  Training on: {device}")
     
-    model = STGraphTransformer(in_channels=dataset.num_features).to(device)
+    # model = STGraphTransformer(in_channels=dataset.num_features).to(device)
+    model = STGraphTransformer(in_channels=dataset.num_features, edge_dim=2).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=config.LR)
     criterion = torch.nn.CrossEntropyLoss()
     
@@ -56,7 +57,8 @@ def main():
         for data in train_loader:
             data = data.to(device)
             optimizer.zero_grad()
-            out = model(data.x, data.edge_index, data.batch)
+            # out = model(data.x, data.edge_index, data.batch)
+            out = model(data.x, data.edge_index, data.edge_attr, data.batch)
             loss = criterion(out, data.y)
             loss.backward()
             optimizer.step()
@@ -72,7 +74,8 @@ def main():
         with torch.no_grad():
             for data in test_loader:
                 data = data.to(device)
-                out = model(data.x, data.edge_index, data.batch)
+                # out = model(data.x, data.edge_index, data.batch)
+                out = model(data.x, data.edge_index, data.edge_attr, data.batch)
                 pred = out.argmax(dim=1)
                 correct += int((pred == data.y).sum())
                 total += data.y.size(0)
@@ -119,7 +122,8 @@ def main():
     with torch.no_grad():
         for data in test_loader:
             data = data.to(device)
-            out = model(data.x, data.edge_index, data.batch)
+            # out = model(data.x, data.edge_index, data.batch)
+            out = model(data.x, data.edge_index, data.edge_attr, data.batch)
             pred = out.argmax(dim=1)
             
             y_true.extend(data.y.cpu().numpy())

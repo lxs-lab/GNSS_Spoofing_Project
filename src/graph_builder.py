@@ -76,22 +76,49 @@ class GNSSGraphDataset(InMemoryDataset):
                 if num_nodes < 4: 
                     continue
                 
-                # 3. 构建全连接边 (Fully Connected Edges)
-                # 假设所有可见卫星之间都存在潜在的空间几何关联
+                # 3. 构建全连接边并计算物理差值特征
+                # # 假设所有可见卫星之间都存在潜在的空间几何关联
+                # edge_index = []
+                # for i in range(num_nodes):
+                #     for j in range(num_nodes):
+                #         if i != j:
+                #             edge_index.append([i, j])
+                
+                # edge_tensor = torch.tensor(edge_index, dtype=torch.long).t().contiguous()
+                
+                # # 4. 标签与掩码
+                # y = torch.tensor([label], dtype=torch.long)
+                
+                # # 创建图对象
+                # data = Data(x=x, edge_index=edge_tensor, y=y)
+
+                # 修改开始
                 edge_index = []
+                edge_attr = [] # 新增列表存放边特征
+
                 for i in range(num_nodes):
                     for j in range(num_nodes):
                         if i != j:
                             edge_index.append([i, j])
+                            
+                            # [物理核心] 计算节点 i 和 j 的特征差值
+                            # x[i, 0] 是归一化后的 CN0, x[i, 1] 是归一化后的 Doppler
+                            diff_cn0 = x[i, 0] - x[j, 0]
+                            diff_doppler = x[i, 1] - x[j, 1]
+                            
+                            # 将差值作为这条边的属性
+                            edge_attr.append([diff_cn0, diff_doppler])
                 
-                edge_tensor = torch.tensor(edge_index, dtype=torch.long).t().contiguous()
-                
+                edge_index_tensor = torch.tensor(edge_index, dtype=torch.long).t().contiguous()
+                edge_attr_tensor = torch.tensor(edge_attr, dtype=torch.float) # 转换为 Tensor
+                # 修改结束
+
                 # 4. 标签与掩码
                 y = torch.tensor([label], dtype=torch.long)
                 
-                # 创建图对象
-                data = Data(x=x, edge_index=edge_tensor, y=y)
-                
+                # 创建图对象 (注意这里要把 edge_attr 传进去)
+                data = Data(x=x, edge_index=edge_index_tensor, edge_attr=edge_attr_tensor, y=y)
+
                 # 附加元数据 (Metadata)
                 data.timestamp = float(time)
                 data.train_mask = is_train # 关键：标记这条数据属于训练集还是测试集
