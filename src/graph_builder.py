@@ -65,8 +65,10 @@ class GNSSGraphDataset(InMemoryDataset):
                 # 1. 节点特征 (Node Features)
                 # 归一化: CN0/50, Doppler/5000
                 x_np = group[['CN0_dBHz', 'Doppler']].values.astype(float)
-                x_np[:, 0] /= 50.0  
-                x_np[:, 1] /= 5000.0
+                # x_np[:, 0] /= 50.0  
+                # x_np[:, 1] /= 5000.0
+                x_np[:, 0] = (x_np[:, 0] - 45.0) / 10.0  
+                x_np[:, 1] /= 2500.0
                 x = torch.tensor(x_np, dtype=torch.float)
                 
                 # 2. 过滤掉卫星数太少的帧 (无法构图)
