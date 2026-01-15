@@ -3,18 +3,17 @@ import os
 # === 1. 路径配置 ===
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# DATA_RAW_DIR = os.path.join(BASE_DIR, 'data', 'raw')
+# 请确认这个路径是否正确，如果不正确请修改为你本地的实际路径
 DATA_RAW_DIR = r'F:\李小双博士资料\2.观测数据\SDR Dataset\TEXBAT file'
 DATA_PROC_DIR = os.path.join(BASE_DIR, 'data', 'processed')
 DATASET_DIR = os.path.join(DATA_PROC_DIR, 'dataset')
 MODEL_DIR = os.path.join(BASE_DIR, 'models')
 
-# === 修改点：只定义基础 logs 目录，不自动创建子文件夹 ===
+# 基础日志目录
 LOG_BASE_DIR = os.path.join(BASE_DIR, 'logs')
-# 默认 LOG_DIR 就指向 logs，后续由主程序决定是否更新为子文件夹
 LOG_DIR = LOG_BASE_DIR 
 
-# 确保基础目录存在
+# 确保目录存在
 for d in [DATA_PROC_DIR, DATASET_DIR, MODEL_DIR, LOG_BASE_DIR]:
     os.makedirs(d, exist_ok=True)
 
@@ -43,17 +42,10 @@ DATA_FILES = {
 }
 
 # === 4. 模型训练参数 ===
-# 训练轮数
-EPOCHS = 50
+EPOCHS = 50           
 
-# BATCH_SIZE 保持 64 或 32
-BATCH_SIZE = 64 
-
-# [修改] 降低 Hidden Dim，防止过拟合
-HIDDEN_DIM = 32  # 原来是 64 -> 改为 32
-
-# [修改] 增加 Dropout，随机丢弃神经元
-DROPOUT = 0.5    # 原来是 0.2 -> 改为 0.5 (强力抗过拟合)
-
-# [修改] 降低学习率，让模型学得更细致
-LR = 0.0005      # 原来是 0.001 -> 改为 0.0005
+# [回退] 恢复模型容量，解决欠拟合
+BATCH_SIZE = 64
+LR = 0.001            # 恢复学习率 (0.0005 -> 0.001)
+HIDDEN_DIM = 64       # 恢复神经元数量 (32 -> 64)
+DROPOUT = 0.2         # 降低丢弃率 (0.5 -> 0.2)

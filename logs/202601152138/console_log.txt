@@ -1,0 +1,51 @@
+📂 结果将保存至: C:\Users\27170\WPSDrive\383859682\WPS云盘\Graduate\Graduation Project\99 个人成果\论文\2026.01_小论文\GNSS_Spoofing_Project\logs\202601152138
+========================================
+      GNSS 模型训练 (Tanh Fix + Capacity Restore)       
+========================================
+🧹 已清理旧缓存，强制重新构建数据...
+🏗️ 开始构建全量物理图数据集 (Tanh Normalized)...
+🎯 训练集文件定义: ['cleanStatic80.bin', 'cleanDynamic.bin', 'ds4.bin']
+📦 处理 cleanStatic80.bin -> Label: 0 [TRAIN]
+📦 处理 cleanStatic.bin -> Label: 0 [TEST]
+📦 处理 cleanDynamic.bin -> Label: 0 [TRAIN]
+📦 处理 ds4.bin -> Label: 1 [TRAIN]
+📦 处理 ds1.bin -> Label: 1 [TEST]
+📦 处理 ds2.bin -> Label: 1 [TEST]
+📦 处理 ds3.bin -> Label: 1 [TEST]
+📦 处理 ds5.bin -> Label: 1 [TEST]
+📦 处理 ds6.bin -> Label: 1 [TEST]
+📦 处理 ds7.bin -> Label: 1 [TEST]
+📦 处理 ds8.bin -> Label: 1 [TEST]
+💾 正在保存 9225 个图样本到磁盘...
+✅ 数据集构建完成！
+📊 训练集分布: Clean=1045, Spoof=916
+⚙️  Class Weights: tensor([1., 1.]) (Training on cuda)
+
+🚀 开始训练...
+Epoch 05 | Loss: 0.1812 | Test Acc: 53.65%
+Epoch 10 | Loss: 0.1693 | Test Acc: 52.09%
+Epoch 15 | Loss: 0.1255 | Test Acc: 56.76%
+Epoch 20 | Loss: 0.1176 | Test Acc: 54.47%
+Epoch 25 | Loss: 0.1178 | Test Acc: 60.94%
+Epoch 30 | Loss: 0.1091 | Test Acc: 54.20%
+Epoch 35 | Loss: 0.1109 | Test Acc: 63.88%
+Epoch 40 | Loss: 0.1010 | Test Acc: 62.65%
+Epoch 45 | Loss: 0.0995 | Test Acc: 63.38%
+Epoch 50 | Loss: 0.1052 | Test Acc: 60.09%
+
+✅ 训练结束! 最佳测试准确率: 64.03%
+
+==================================================
+📊 最终分场景评估 (Scenario Eval)
+==================================================
+Scenario        | Acc (%)    | Status
+--------------------------------------------------
+cleanStatic     | 22.92%     | ⚠️
+ds1             | 52.22%     | ⚠️
+ds2             | 99.45%     | ✅
+ds3             | 86.12%     | ✅
+ds5             | 75.60%     | ⚠️
+ds6             | 52.03%     | ⚠️
+ds7             | 53.62%     | ⚠️
+ds8             | 72.45%     | ⚠️
+✅ 结果已保存至 C:\Users\27170\WPSDrive\383859682\WPS云盘\Graduate\Graduation Project\99 个人成果\论文\2026.01_小论文\GNSS_Spoofing_Project\logs\202601152138

@@ -1,0 +1,14 @@
+==============================
+   🧪 实验配置报告 (Config)   
+==============================
+Timestamp    : 202601152138
+Model Type   : ST-GraphTransformer (Tanh Norm)
+------------------------------
+Epochs       : 50
+Batch Size   : 64
+Learning Rate: 0.001
+Hidden Dim   : 64
+Dropout      : 0.2
+------------------------------
+Dataset Path : C:\Users\27170\WPSDrive\383859682\WPS云盘\Graduate\Graduation Project\99 个人成果\论文\2026.01_小论文\GNSS_Spoofing_Project\data\processed\dataset
+==============================
