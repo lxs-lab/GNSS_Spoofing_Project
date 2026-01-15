@@ -43,8 +43,17 @@ DATA_FILES = {
 }
 
 # === 4. 模型训练参数 ===
-BATCH_SIZE = 64
+# 训练轮数
 EPOCHS = 50
-LR = 0.001
-HIDDEN_DIM = 64
-DROPOUT = 0.2
+
+# BATCH_SIZE 保持 64 或 32
+BATCH_SIZE = 64 
+
+# [修改] 降低 Hidden Dim，防止过拟合
+HIDDEN_DIM = 32  # 原来是 64 -> 改为 32
+
+# [修改] 增加 Dropout，随机丢弃神经元
+DROPOUT = 0.5    # 原来是 0.2 -> 改为 0.5 (强力抗过拟合)
+
+# [修改] 降低学习率，让模型学得更细致
+LR = 0.0005      # 原来是 0.001 -> 改为 0.0005

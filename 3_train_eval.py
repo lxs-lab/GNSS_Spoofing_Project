@@ -40,17 +40,36 @@ def main():
     if save_results:
         # 生成带时间戳的子文件夹
         current_time_str = datetime.now().strftime('%Y%m%d%H%M')
-        # 动态修改 config 中的 LOG_DIR
         config.LOG_DIR = os.path.join(config.LOG_BASE_DIR, current_time_str)
         os.makedirs(config.LOG_DIR, exist_ok=True)
         
-        # 开启日志记录：将控制台所有输出重定向到 console_log.txt
+        # 开启日志记录
         log_file_path = os.path.join(config.LOG_DIR, 'console_log.txt')
         sys.stdout = Logger(log_file_path)
         print(f"📂 结果将保存至: {config.LOG_DIR}")
+
+        # === [新增] 自动保存实验参数小票 (Hyperparameters) ===
+        param_file_path = os.path.join(config.LOG_DIR, 'experiment_config.txt')
+        with open(param_file_path, 'w', encoding='utf-8') as f:
+            f.write("="*30 + "\n")
+            f.write("   🧪 实验配置报告 (Config)   \n")
+            f.write("="*30 + "\n")
+            f.write(f"Timestamp    : {current_time_str}\n")
+            f.write(f"Model Type   : ST-GraphTransformer (Physics-Aware)\n")
+            f.write("-" * 30 + "\n")
+            f.write(f"Epochs       : {config.EPOCHS}\n")
+            f.write(f"Batch Size   : {config.BATCH_SIZE}\n")
+            f.write(f"Learning Rate: {config.LR}\n")
+            f.write(f"Weight Decay : {1e-3 if '1e-3' in str(config.LR) else 'Check Code'}\n") # 提示你去检查代码里的硬编码
+            f.write(f"Hidden Dim   : {config.HIDDEN_DIM}\n")
+            f.write(f"Dropout      : {config.DROPOUT}\n")
+            f.write("-" * 30 + "\n")
+            f.write(f"Dataset Path : {config.DATASET_DIR}\n")
+            f.write("="*30 + "\n")
+        print(f"📝 参数配置文件已生成: {param_file_path}")
+
     else:
         print("🚫 本次运行不保存结果 (不会创建新文件夹)")
-        # 使用不带文件的 Logger，仅为了保持 sys.stdout 类型一致（可选）
         sys.stdout = Logger(None)
 
     print("="*40)
@@ -89,7 +108,8 @@ def main():
     # 3. 初始化模型
     model = STGraphTransformer(in_channels=dataset.num_features, edge_dim=2).to(device)
     
-    optimizer = torch.optim.Adam(model.parameters(), lr=config.LR, weight_decay=1e-4)
+    # weight_decay 从 1e-4 增加到 1e-3 (10倍强度的正则化)
+    optimizer = torch.optim.Adam(model.parameters(), lr=config.LR, weight_decay=1e-3)
     criterion = torch.nn.CrossEntropyLoss(weight=class_weights.to(device))
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.5, patience=5)
     

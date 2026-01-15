@@ -1,0 +1,42 @@
+📂 结果将保存至: C:\Users\27170\WPSDrive\383859682\WPS云盘\Graduate\Graduation Project\99 个人成果\论文\2026.01_小论文\GNSS_Spoofing_Project\logs\202601152057
+========================================
+      GNSS 模型训练与评估系统 (Physics-Aware)       
+========================================
+🧹 已清理旧缓存，重新构建数据...
+🏗️ 开始构建图数据集...
+🎯 训练集文件定义: ['cleanStatic.bin', 'cleanDynamic.bin', 'ds4.bin']
+💾 正在保存 9225 个图样本到磁盘...
+✅ 数据集构建完成！
+📊 训练集分布: Clean=1845, Spoof=916
+⚙️  Class Weights: tensor([0.4965, 1.0000]) (Training on cuda)
+
+🚀 开始训练...
+Epoch 05 | Loss: 0.4061 | Test Acc: 63.24%
+Epoch 10 | Loss: 0.3656 | Test Acc: 41.63%
+Epoch 15 | Loss: 0.3372 | Test Acc: 47.76%
+Epoch 20 | Loss: 0.3350 | Test Acc: 54.55%
+Epoch 25 | Loss: 0.3160 | Test Acc: 46.84%
+Epoch 30 | Loss: 0.3090 | Test Acc: 51.83%
+Epoch 35 | Loss: 0.2951 | Test Acc: 48.41%
+Epoch 40 | Loss: 0.2818 | Test Acc: 44.28%
+Epoch 45 | Loss: 0.2761 | Test Acc: 46.61%
+Epoch 50 | Loss: 0.2737 | Test Acc: 52.27%
+
+✅ 训练结束! 最佳测试准确率: 63.24%
+💾 正在保存图表至: C:\Users\27170\WPSDrive\383859682\WPS云盘\Graduate\Graduation Project\99 个人成果\论文\2026.01_小论文\GNSS_Spoofing_Project\logs\202601152057
+
+==================================================
+📊 最终分场景评估 (Final Scenario Eval)
+==================================================
+Scenario        | Acc (%)    | Status
+--------------------------------------------------
+cleanStatic80   | 30.63%     | ⚠️
+ds1             | 43.23%     | ⚠️
+ds2             | 96.39%     | ✅
+ds3             | 80.22%     | ⚠️
+ds5             | 76.79%     | ⚠️
+ds6             | 56.34%     | ⚠️
+ds7             | 38.94%     | ⚠️
+ds8             | 58.09%     | ⚠️
+✅ 所有结果已保存至 C:\Users\27170\WPSDrive\383859682\WPS云盘\Graduate\Graduation Project\99 个人成果\论文\2026.01_小论文\GNSS_Spoofing_Project\logs\202601152057 文件夹下。
+📄 终端日志已保存至 C:\Users\27170\WPSDrive\383859682\WPS云盘\Graduate\Graduation Project\99 个人成果\论文\2026.01_小论文\GNSS_Spoofing_Project\logs\202601152057\console_log.txt

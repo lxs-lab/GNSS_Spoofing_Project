@@ -37,7 +37,7 @@ class GNSSGraphDataset(InMemoryDataset):
         
         # 定义训练集包含的文件 (根据你的策略)
         # 这里的名字必须和 config.DATA_FILES 里的键(Key)一致
-        # ds0/cleanStatic80 用于学习正常，ds4 用于学习隐蔽欺骗
+        # ds0/cleanStatic 用于学习正常，ds4 用于学习隐蔽欺骗
         TRAIN_FILES = ['cleanStatic.bin', 'cleanDynamic.bin', 'ds4.bin'] 
 
         print(f"🏗️ 开始构建图数据集...")
@@ -78,21 +78,6 @@ class GNSSGraphDataset(InMemoryDataset):
                 
                 # 3. 构建全连接边并计算物理差值特征
                 # # 假设所有可见卫星之间都存在潜在的空间几何关联
-                # edge_index = []
-                # for i in range(num_nodes):
-                #     for j in range(num_nodes):
-                #         if i != j:
-                #             edge_index.append([i, j])
-                
-                # edge_tensor = torch.tensor(edge_index, dtype=torch.long).t().contiguous()
-                
-                # # 4. 标签与掩码
-                # y = torch.tensor([label], dtype=torch.long)
-                
-                # # 创建图对象
-                # data = Data(x=x, edge_index=edge_tensor, y=y)
-
-                # 修改开始
                 edge_index = []
                 edge_attr = [] # 新增列表存放边特征
 

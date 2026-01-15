@@ -1,0 +1,43 @@
+📂 结果将保存至: C:\Users\27170\WPSDrive\383859682\WPS云盘\Graduate\Graduation Project\99 个人成果\论文\2026.01_小论文\GNSS_Spoofing_Project\logs\202601152121
+📝 参数配置文件已生成: C:\Users\27170\WPSDrive\383859682\WPS云盘\Graduate\Graduation Project\99 个人成果\论文\2026.01_小论文\GNSS_Spoofing_Project\logs\202601152121\experiment_config.txt
+========================================
+      GNSS 模型训练与评估系统 (Physics-Aware)       
+========================================
+🧹 已清理旧缓存，重新构建数据...
+🏗️ 开始构建图数据集...
+🎯 训练集文件定义: ['cleanStatic.bin', 'cleanDynamic.bin', 'ds4.bin']
+💾 正在保存 9225 个图样本到磁盘...
+✅ 数据集构建完成！
+📊 训练集分布: Clean=1845, Spoof=916
+⚙️  Class Weights: tensor([0.4965, 1.0000]) (Training on cuda)
+
+🚀 开始训练...
+Epoch 05 | Loss: 0.5111 | Test Acc: 49.74%
+Epoch 10 | Loss: 0.4881 | Test Acc: 49.24%
+Epoch 15 | Loss: 0.4615 | Test Acc: 53.17%
+Epoch 20 | Loss: 0.4431 | Test Acc: 48.59%
+Epoch 25 | Loss: 0.4361 | Test Acc: 48.48%
+Epoch 30 | Loss: 0.4429 | Test Acc: 47.14%
+Epoch 35 | Loss: 0.4273 | Test Acc: 42.76%
+Epoch 40 | Loss: 0.4150 | Test Acc: 43.07%
+Epoch 45 | Loss: 0.4224 | Test Acc: 43.90%
+Epoch 50 | Loss: 0.4142 | Test Acc: 42.95%
+
+✅ 训练结束! 最佳测试准确率: 64.87%
+💾 正在保存图表至: C:\Users\27170\WPSDrive\383859682\WPS云盘\Graduate\Graduation Project\99 个人成果\论文\2026.01_小论文\GNSS_Spoofing_Project\logs\202601152121
+
+==================================================
+📊 最终分场景评估 (Final Scenario Eval)
+==================================================
+Scenario        | Acc (%)    | Status
+--------------------------------------------------
+cleanStatic80   | 28.12%     | ⚠️
+ds1             | 43.01%     | ⚠️
+ds2             | 94.75%     | ✅
+ds3             | 69.51%     | ⚠️
+ds5             | 79.31%     | ⚠️
+ds6             | 66.51%     | ⚠️
+ds7             | 51.49%     | ⚠️
+ds8             | 58.09%     | ⚠️
+✅ 所有结果已保存至 C:\Users\27170\WPSDrive\383859682\WPS云盘\Graduate\Graduation Project\99 个人成果\论文\2026.01_小论文\GNSS_Spoofing_Project\logs\202601152121 文件夹下。
+📄 终端日志已保存至 C:\Users\27170\WPSDrive\383859682\WPS云盘\Graduate\Graduation Project\99 个人成果\论文\2026.01_小论文\GNSS_Spoofing_Project\logs\202601152121\console_log.txt
