@@ -1,0 +1,55 @@
+==============================================================
+  GNSS ST-Graph Transformer — Training & Evaluation
+==============================================================
+  EPOCHS=50  BS=64  LR=0.001  HIDDEN=64  DROPOUT=0.2
+🧹  Cleared cached dataset — rebuilding from CSV …
+🏗️  Building physics-aware graph dataset …
+    Train files : ['cleanDynamic.bin', 'cleanStatic.bin', 'ds4.bin']
+    Norm params : CN0 z-score (μ=45.0, σ=10.0),  Dop tanh/3000.0,  ΔDop tanh/500.0
+   📦  cleanStatic80.bin  label=0  [TEST]
+   📦  cleanStatic.bin  label=0  [TRAIN]
+   📦  cleanDynamic.bin  label=0  [TRAIN]
+   📦  ds4.bin  label=1  [TRAIN]
+   📦  ds1.bin  label=1  [TEST]
+   📦  ds2.bin  label=1  [TEST]
+   📦  ds3.bin  label=1  [TEST]
+   📦  ds5.bin  label=1  [TEST]
+   📦  ds6.bin  label=1  [TEST]
+   📦  ds7.bin  label=1  [TEST]
+   📦  ds8.bin  label=1  [TEST]
+
+💾  Saving 9225 graphs (train=2761, test=6464) …
+✅  Dataset built successfully!
+
+📊  Train: clean=1845, spoof=916
+    Test : clean=160, spoof=6304
+
+📦  Dataset: 9225 graphs  |  features=2  classes=2
+   ⚖️  Class imbalance 2.0:1 — applying weights tensor([1.0000, 2.0142])
+   🖥️  Device: cuda
+
+   🚀  Training [ST-GT]  (50 epochs) …
+      Epoch 001 | Loss 0.4684 | Acc 53.9% | DR 54.4% | FAR 66.88%
+      Epoch 010 | Loss 0.3278 | Acc 50.5% | DR 50.6% | FAR 53.75%
+      Epoch 020 | Loss 0.2972 | Acc 47.9% | DR 47.9% | FAR 51.25%
+      Epoch 030 | Loss 0.2758 | Acc 49.7% | DR 49.7% | FAR 53.12%
+      Epoch 040 | Loss 0.2748 | Acc 51.6% | DR 51.7% | FAR 55.00%
+      Epoch 050 | Loss 0.2488 | Acc 50.6% | DR 50.7% | FAR 54.37%
+
+   ✅  Best overall Acc=54.1%, DR=54.7%
+
+==============================================================
+  Per-scenario evaluation (zero-shot transfer)
+==============================================================
+  Scenario             #samples   DR (%)  FAR (%)  Status
+  ----------------------------------------------------------
+  cleanStatic80             160     nan%   69.38%  ⚠️ 
+  ds1                       923    31.5%     nan%  ⚠️ 
+  ds2                       914    91.4%     nan%  ⚠️ 
+  ds3                       915    64.6%     nan%  ⚠️ 
+  ds5                       836    76.9%     nan%  ⚠️ 
+  ds6                       836    53.9%     nan%  ⚠️ 
+  ds7                       940    27.4%     nan%  ⚠️ 
+  ds8                       940    40.4%     nan%  ⚠️ 
+==============================================================
+   📊  Plots saved to C:\Users\27170\WPSDrive\383859682\WPS云盘\Graduate\Graduation Project\99 个人成果\论文\2026.01_小论文\ION GNSS+ 2026\Code Project\logs\20260323_2113/
